@@ -65,7 +65,10 @@ const Navigation = () => {
         )}
       >
         <nav className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-between">
+            {/* Left Spacer */}
+            <div className="hidden lg:flex w-48" />
+
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-1">
               {navItems.map((item) => (
