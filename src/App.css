@@ -3,3 +3,7 @@
 .portfolio-container {
   /* Container styles handled by Tailwind utilities */
 }
+
+.project-image {
+  object-fit: contain;
+}

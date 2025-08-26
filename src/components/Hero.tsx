@@ -6,7 +6,7 @@ const Hero = () => {
   const [heroRef, heroVisible] = useScrollReveal();
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden px-4 sm:px-6">
+    <section id="hero" className="h-[80vh] flex justify-center relative overflow-hidden px-4 sm:px-6 pt-48">
       {/* Advanced background effects */}
       <div className="absolute inset-0 bg-gradient-mesh opacity-40" />
       
@@ -17,7 +17,7 @@ const Hero = () => {
       
       {/* Content */}
       <div ref={heroRef} className={`container mx-auto px-6 relative z-10 transition-all duration-1000 ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center">
           
           <div className="space-y-6">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-tight">

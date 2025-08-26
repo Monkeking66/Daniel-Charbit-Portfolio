@@ -148,7 +148,7 @@ const About = () => {
       <div className="absolute top-1/4 left-0 w-48 h-48 sm:w-96 sm:h-96 bg-accent/5 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-0 w-32 h-32 sm:w-80 sm:h-80 bg-primary/5 rounded-full blur-3xl" />
 
-      <div className="container mx-auto max-w-6xl relative z-10 space-y-24 sm:space-y-32">
+      <div className="container mx-auto max-w-7xl relative z-10 space-y-24 sm:space-y-32">
         {/* --- ABOUT ME PART --- */}
         <div ref={aboutRef}>
           <div className="grid lg:grid-cols-2 gap-12 items-center">

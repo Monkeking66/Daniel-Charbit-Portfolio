@@ -264,7 +264,7 @@ const Experience = () => {
         style={{ animationDelay: '4s' }} 
       />
       
-      <div className="container mx-auto max-w-5xl relative z-10">
+      <div className="container mx-auto max-w-7xl relative z-10">
         <div 
           ref={headerRef}
           className="text-center mb-12 sm:mb-16 lg:mb-20"

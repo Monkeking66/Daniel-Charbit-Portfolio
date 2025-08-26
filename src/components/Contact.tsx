@@ -54,7 +54,7 @@ const Contact = () => {
       <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-primary/10 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-1/4 right-1/4 w-32 h-32 sm:w-80 sm:h-80 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
       
-      <div className="container mx-auto max-w-6xl relative z-10">
+      <div className="container mx-auto max-w-7xl relative z-10">
         <div 
           ref={contactRef}
           className={`text-center mb-12 sm:mb-16 lg:mb-20 transition-all duration-1000 ${contactVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}

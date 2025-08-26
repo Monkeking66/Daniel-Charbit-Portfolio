@@ -47,7 +47,7 @@ const Skills = () => {
       <div className="absolute top-0 right-1/4 w-32 h-32 sm:w-80 sm:h-80 bg-primary/10 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-0 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }} />
       
-      <div className="container mx-auto max-w-6xl relative z-10">
+      <div className="container mx-auto max-w-7xl relative z-10">
         <div 
           ref={skillsRef}
           className={`text-center mb-12 sm:mb-16 transition-all duration-1000 ${skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}

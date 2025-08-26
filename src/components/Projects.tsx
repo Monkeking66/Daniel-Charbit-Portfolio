@@ -10,29 +10,20 @@ import { getTechIcon } from "@/lib/tech-icons";
 
 const projects = [
   {
-    title: "Portfolio Revamp",
-    image: "/projects/project-1.svg",
-    description: "A complete redesign and rebuild of my personal portfolio to be modern, animated, and fully responsive.",
-    longDescription: "This project involved a ground-up rebuild using Vite for a fast development experience and TailwindCSS for a utility-first styling approach. I implemented custom hooks for scroll-triggered animations and ensured the entire site was responsive across all devices. The goal was to create a performant and visually engaging showcase of my skills.",
-    tech: ["React", "TypeScript", "Vite", "TailwindCSS"],
-    links: { github: "#", demo: "#" },
+    title: "Invoice Nudger",
+    image: "/INVOICE.png",
+    description: "An application to track invoices and send automated, personalized payment reminders.",
+    longDescription: "Invoice Nudger is a full-stack application built with the MERN stack. It allows users to track the status of their invoices (sent, viewed, overdue, paid) and sends automated, personalized payment reminders to clients. The dashboard provides a clear overview of all invoices, helping users to stay on top of their finances.",
+    tech: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js", "Express", "PostgreSQL", "Playwright"],
+    links: { github: "https://github.com/Monkeking66/INVOICE", demo: "https://invoice-lilac.vercel.app/" },
     icon: Rocket,
   },
   {
-    title: "Analytics Dashboard",
-    image: "/projects/project-2.svg",
-    description: "An interactive dashboard for visualizing data with custom charts and a responsive widget-based layout.",
-    longDescription: "Built with React and Recharts, this dashboard provides users with interactive and customizable data visualizations. It features a secure authentication flow and a backend powered by Node.js to serve data to the frontend. The layout is fully responsive, allowing users to manage their dashboards on any device.",
-    tech: ["React", "Recharts", "Node.js", "TypeScript"],
-    links: { github: "#", demo: "#" },
-    icon: Code2,
-  },
-  {
-    title: "Automation Toolkit",
-    image: "/projects/project-3.svg",
-    description: "A collection of scripts and tools to automate repetitive development and testing tasks.",
-    longDescription: "This toolkit includes a suite of scripts for automating browser testing with Playwright, API testing with Postman collections, and other common development workflows. The main goal was to reduce manual effort and improve consistency in testing and deployment processes.",
-    tech: ["Node.js", "Playwright", "Postman"],
+    title: "Your Next Project",
+    image: "/placeholder.svg",
+    description: "This spot is reserved for your next exciting project! Stay tuned for updates.",
+    longDescription: "I'm currently working on something new and exciting. This project will showcase my latest skills and innovations. Check back soon for more details!",
+    tech: ["Coming Soon"],
     links: { github: "#", demo: "#" },
     icon: Sparkles,
   },
@@ -56,7 +47,7 @@ const Projects = () => {
       <div className="absolute top-0 left-1/4 w-32 h-32 sm:w-80 sm:h-80 bg-primary/10 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-0 right-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }} />
 
-      <div className="container mx-auto max-w-6xl relative z-10">
+      <div className="container mx-auto max-w-7xl relative z-10">
         <div
           ref={projectsRef}
           className={`text-center mb-12 sm:mb-16 transition-all duration-1000 ${projectsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
@@ -92,7 +83,7 @@ const Projects = () => {
           ))}
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-14 mx-auto w-fit">
           {filteredProjects.map((proj, index) => (
             <Dialog key={proj.title}>
               <DialogTrigger asChild>
@@ -100,9 +91,9 @@ const Projects = () => {
                   className={`transition-all duration-700 ${projectsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                   style={{ transitionDelay: `${index * 150}ms` }}
                 >
-                  <Card className="bg-gradient-card border-primary/10 hover:border-primary/30 transition-all duration-500 group relative overflow-hidden h-full cursor-pointer hover:shadow-glow-lg hover:-translate-y-2">
+                  <Card className="bg-gradient-card border-primary/10 hover:border-primary/30 transition-all duration-500 group relative overflow-hidden h-full cursor-pointer hover:shadow-glow-lg hover:-translate-y-2 max-w-md">
                     <div className="absolute inset-0 bg-gradient-hero opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
-                    <img src={proj.image} alt={proj.title} className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-105" />
+                    <img src={proj.image} alt={proj.title} className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105 project-image" />
                     <CardContent className="p-4 sm:p-5 relative z-10">
                       <h3 className="font-bold text-base sm:text-lg group-hover:text-primary transition-colors mb-2">
                         {proj.title}
