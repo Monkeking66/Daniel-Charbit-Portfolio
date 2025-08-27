@@ -154,6 +154,21 @@ All colors MUST be HSL.
     transform: translateY(var(--parallax-offset, 0));
     transition: transform 0.1s ease-out;
   }
+  
+  /* Hide scrollbar for WebKit, Firefox, IE/Edge while keeping scroll functionality */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  /* Improve tap target sizes on mobile */
+  .tap-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
 
 @keyframes fadeIn {

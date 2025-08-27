@@ -43,15 +43,17 @@ const Navigation = () => {
   }, []);
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const offsetTop = element.offsetTop - 80;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: "smooth"
-      });
-    }
     setIsMobileMenuOpen(false);
+    requestAnimationFrame(() => {
+      const element = document.getElementById(sectionId);
+      if (!element) return;
+      const header = document.querySelector('header') as HTMLElement | null;
+      const navBar = header?.querySelector('nav') as HTMLElement | null;
+      const measured = navBar?.offsetHeight ?? header?.offsetHeight ?? 80;
+      const safeHeaderHeight = measured > 120 ? 80 : measured;
+      const targetTop = element.getBoundingClientRect().top + window.scrollY - safeHeaderHeight - 8;
+      window.scrollTo({ top: targetTop, behavior: 'smooth' });
+    });
   };
 
   return (
@@ -64,13 +66,13 @@ const Navigation = () => {
             : "bg-transparent"
         )}
       >
-        <nav className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+        <nav className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
+          <div className="flex items-center justify-between md:justify-center lg:justify-between">
             {/* Left Spacer */}
             <div className="hidden lg:flex w-48" />
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-1">
+            <div className="hidden md:flex items-center space-x-1 md:mx-auto">
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -97,7 +99,7 @@ const Navigation = () => {
               </Badge>
               <Button
                 size="sm"
-                onClick={() => scrollToSection("contact")}
+                onClick={() => scrollToSection('contact')}
                 className="bg-gradient-hero hover:shadow-glow transition-all duration-300"
               >
                 <Mail className="w-4 h-4 mr-2" />
@@ -118,20 +120,20 @@ const Navigation = () => {
         {/* Mobile Menu */}
         <div 
           className={cn(
-            "md:hidden transition-all duration-300 overflow-hidden",
+            "md:hidden transition-[max-height,opacity] duration-300 overflow-hidden",
             isMobileMenuOpen 
               ? "max-h-96 opacity-100" 
               : "max-h-0 opacity-0"
           )}
         >
-          <div className="bg-background/95 backdrop-blur-lg border-t border-border/50 px-6 py-4">
+          <div className="bg-background/95 backdrop-blur-lg border-t border-border/50 px-4 sm:px-6 py-3 sm:py-4">
             <div className="space-y-3">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
                   className={cn(
-                    "block w-full text-left px-4 py-3 rounded-lg transition-all duration-200",
+                    "block w-full text-left px-3 py-3 rounded-lg transition-all duration-200",
                     activeSection === item.id
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
@@ -144,7 +146,7 @@ const Navigation = () => {
               <div className="pt-4 border-t border-border/50">
                 <Button
                   size="sm"
-                  onClick={() => scrollToSection("contact")}
+                  onClick={() => scrollToSection('contact')}
                   className="w-full bg-gradient-hero hover:shadow-glow transition-all duration-300"
                 >
                   <Mail className="w-4 h-4 mr-2" />

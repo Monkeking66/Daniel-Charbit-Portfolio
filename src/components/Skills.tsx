@@ -1,17 +1,20 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Code, Database, TestTube, Zap, Globe, Settings } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { getTechIcon } from "@/lib/tech-icons";
+import { useState } from "react";
 
 const Skills = () => {
   const [skillsRef, skillsVisible] = useScrollReveal();
+  const [expanded, setExpanded] = useState<boolean[]>([false, false, false, false, false]);
 
   const skillCategories = [
     {
-      icon: Code,
-      title: "Frontend Development",
-      skills: ["JavaScript", "TypeScript", "React", "Next.js", "HTML", "CSS"]
+      icon: Settings,
+      title: "Tools & Workflow", 
+      skills: ["Git", "GitHub", "Postman", "OAuth", "jQuery"]
     },
     {
       icon: Database,
@@ -24,28 +27,23 @@ const Skills = () => {
       skills: ["Playwright", "Selenium", "Manual Testing", "Cross-browser Testing"]
     },
     {
-      icon: Settings,
-      title: "Tools & Workflow", 
-      skills: ["Git", "GitHub", "Postman", "OAuth", "jQuery"]
-    },
-    {
-      icon: Globe,
-      title: "Design & AI",
-      skills: ["Figma UI/UX", "No-Code Tools", "ChatGPT", "Claude", "Perplexity"]
+      icon: Code,
+      title: "Frontend Development",
+      skills: ["JavaScript", "TypeScript", "React", "Next.js", "HTML", "CSS", "Figma UI/UX"]
     },
     {
       icon: Zap,
-      title: "Specialties",
-      skills: ["Video Editing", "Data Analysis", "Automation", "Problem Solving"]
+      title: "AI tools & platforms",
+      skills: ["n8n", "Lovable", "DeepSeek", "Perplexity", "Gemini CLI", "Claude Code", "Cursor"]
     }
   ];
 
   return (
     <section id="skills" className="py-12 sm:py-16 lg:py-24 px-4 sm:px-6 bg-muted/20 relative overflow-hidden">
       {/* Background effects */}
-      <div className="absolute inset-0 bg-gradient-mesh opacity-10" />
-      <div className="absolute top-0 right-1/4 w-32 h-32 sm:w-80 sm:h-80 bg-primary/10 rounded-full blur-3xl animate-float" />
-      <div className="absolute bottom-0 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }} />
+      <div className="absolute inset-0 bg-gradient-mesh opacity-10 pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-32 h-32 sm:w-80 sm:h-80 bg-primary/10 rounded-full blur-3xl animate-float pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-accent/10 rounded-full blur-3xl animate-float pointer-events-none" style={{ animationDelay: '3s' }} />
       
       <div className="container mx-auto max-w-7xl relative z-10">
         <div 
@@ -65,36 +63,71 @@ const Skills = () => {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Unified grid with per-card Show more on mobile */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-6 gap-6 sm:gap-8">
           {skillCategories.map((category, index) => (
             <div
               key={category.title}
-              className={`transition-all duration-700 ${skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+              className={`transition-all duration-700 ${skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${index < 3 ? 'lg:col-span-2' : 'lg:col-span-3'}`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
-              <Card className="p-4 sm:p-6 bg-gradient-card border-primary/10 hover:border-primary/30 transition-all duration-500 group relative overflow-hidden h-full">
+              <Card className={`p-4 sm:p-6 ${index >= 3 ? 'sm:p-8' : ''} bg-gradient-card border-primary/10 hover:border-primary/30 transition-all duration-500 group relative overflow-hidden h-full`}>
                 <div className="absolute inset-0 bg-gradient-hero opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
                 <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300">
                       <category.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     </div>
-                    <h3 className="font-bold text-base sm:text-lg group-hover:text-primary transition-colors">
+                    <h3 className="font-bold text-sm sm:text-lg group-hover:text-primary transition-colors">
                       {category.title}
                     </h3>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map((skill) => (
-                      <Badge 
-                        key={skill}
-                        variant="outline" 
-                        className="text-xs px-2 py-1 hover:bg-primary/10 border-primary/30 hover:text-primary transition-all duration-300 hover:scale-105 flex items-center"
-                      >
-                        {getTechIcon(skill)}
-                        {skill}
-                      </Badge>
-                    ))}
+                  {/* Mobile: show 3 with toggle; Desktop: show all and wrap */}
+                  <div className="mt-3 flex flex-wrap gap-2 sm:justify-center">
+                    {(
+                      expanded[index]
+                        ? category.skills
+                        : category.skills.slice(0, 3)
+                    ).map((skill) => {
+                      const hideList = ['Lovable','DeepSeek','Perplexity','Gemini CLI','Claude Code','Cursor'];
+                      const hideIcon = category.title === 'AI tools & platforms' && hideList.includes(skill);
+                      return (
+                        <Badge 
+                          key={skill}
+                          variant="outline" 
+                          className="text-xs px-2 py-1 hover:bg-primary/10 border-primary/30 hover:text-primary transition-all duration-300 flex items-center"
+                        >
+                          {!hideIcon && getTechIcon(skill)}
+                          {skill}
+                        </Badge>
+                      );
+                    })}
+                    {/* On sm+ render remaining badges (desktop shows all) */}
+                    <div className="hidden sm:flex sm:flex-wrap sm:gap-2">
+                      {category.skills.slice(3).map((skill) => {
+                        const hideList = ['Lovable','DeepSeek','Perplexity','Gemini CLI','Claude Code','Cursor'];
+                        const hideIcon = category.title === 'AI tools & platforms' && hideList.includes(skill);
+                        return (
+                          <Badge 
+                            key={`desktop-${skill}`}
+                            variant="outline" 
+                            className="text-xs px-2 py-1 hover:bg-primary/10 border-primary/30 hover:text-primary transition-all duration-300 flex items-center"
+                          >
+                            {!hideIcon && getTechIcon(skill)}
+                            {skill}
+                          </Badge>
+                        );
+                      })}
+                    </div>
                   </div>
+                  {category.skills.length > 3 && (
+                    <button
+                      className="sm:hidden mt-3 text-xs text-primary underline-offset-2 hover:underline"
+                      onClick={() => setExpanded((prev) => prev.map((v, i) => i === index ? !v : v))}
+                    >
+                      {expanded[index] ? 'Show less' : `Show ${category.skills.length - 3} more`}
+                    </button>
+                  )}
                 </div>
               </Card>
             </div>

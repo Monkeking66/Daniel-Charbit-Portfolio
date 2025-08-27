@@ -1,12 +1,67 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "@/components/ui/sonner";
 import { Mail, Phone, MapPin, Github, Linkedin, Download, Rocket, MessageSquare } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { useState } from "react";
 
 const Contact = () => {
   const [contactRef, contactVisible] = useScrollReveal();
   const [ctaRef, ctaVisible] = useScrollReveal();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
+    projectType: "Web Application",
+    message: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const validate = () => {
+    const { name, email, message } = formValues;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!name.trim() || !email.trim() || !message.trim()) return false;
+    if (!emailRegex.test(email)) return false;
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!validate()) {
+      toast("Please complete all fields with a valid email.");
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/4cf4a176d1121a860a5a086f5eb8f6eb", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          Name: formValues.name,
+          Email: formValues.email,
+          "Project Type": formValues.projectType,
+          Message: formValues.message,
+          _subject: "New Portfolio Contact",
+          _template: "table",
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to send");
+      toast("Thanks! Your message was sent. I'll get back to you within 24 hours.");
+      setFormValues({ name: "", email: "", projectType: "Web Application", message: "" });
+    } catch (err) {
+      toast("Something went wrong while sending. Please try again shortly.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const contactInfo = [
     {
@@ -50,9 +105,9 @@ const Contact = () => {
   return (
     <section id="contact" className="py-12 sm:py-16 lg:py-24 px-4 sm:px-6 bg-muted/20 relative overflow-hidden">
       {/* Background effects */}
-      <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
-      <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-primary/10 rounded-full blur-3xl animate-float" />
-      <div className="absolute bottom-1/4 right-1/4 w-32 h-32 sm:w-80 sm:h-80 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+      <div className="absolute inset-0 bg-gradient-mesh opacity-20" />
+      <div className="hidden sm:block absolute top-1/4 left-1/4 w-48 h-48 sm:w-96 sm:h-96 bg-primary/10 rounded-full blur-3xl animate-float" />
+      <div className="hidden sm:block absolute bottom-1/4 right-1/4 w-32 h-32 sm:w-80 sm:h-80 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
       
       <div className="container mx-auto max-w-7xl relative z-10">
         <div 
@@ -147,29 +202,42 @@ const Contact = () => {
                     Ready to bring your ideas to life? Fill out the form below and I'll get back to you within 24 hours.
                   </p>
                   
-                  <form className="space-y-3">
+                  <form id="contact-form" className="space-y-3" onSubmit={handleSubmit} noValidate>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div className="space-y-2">
-                        <label className="text-xs sm:text-sm font-medium text-foreground">Name</label>
+                        <label htmlFor="name" className="text-xs sm:text-sm font-medium text-foreground">Name</label>
                         <input 
                           type="text" 
-                          className="w-full px-3 py-2 text-sm bg-background/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300"
+                          id="name"
+                          name="name"
+                          autoComplete="name"
+                          required
+                          value={formValues.name}
+                          onChange={handleChange}
+                          className="w-full px-3 py-3 text-sm bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300"
                           placeholder="Your name"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-xs sm:text-sm font-medium text-foreground">Email</label>
+                        <label htmlFor="email" className="text-xs sm:text-sm font-medium text-foreground">Email</label>
                         <input 
                           type="email" 
-                          className="w-full px-3 py-2 text-sm bg-background/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300"
+                          id="email"
+                          name="email"
+                          autoComplete="email"
+                          inputMode="email"
+                          required
+                          value={formValues.email}
+                          onChange={handleChange}
+                          className="w-full px-3 py-3 text-sm bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300"
                           placeholder="your@email.com"
                         />
                       </div>
                     </div>
                     
                     <div className="space-y-2">
-                      <label className="text-xs sm:text-sm font-medium text-foreground">Project Type</label>
-                      <select className="w-full px-3 py-2 text-sm bg-background/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300">
+                      <label htmlFor="projectType" className="text-xs sm:text-sm font-medium text-foreground">Project Type</label>
+                      <select id="projectType" name="projectType" className="w-full px-3 py-3 text-sm bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300" value={formValues.projectType} onChange={handleChange} required>
                         <option>Web Application</option>
                         <option>Mobile App</option>
                         <option>E-commerce Site</option>
@@ -179,10 +247,15 @@ const Contact = () => {
                     </div>
                     
                     <div className="space-y-2">
-                      <label className="text-xs sm:text-sm font-medium text-foreground">Message</label>
+                      <label htmlFor="message" className="text-xs sm:text-sm font-medium text-foreground">Message</label>
                       <textarea 
                         rows={3}
-                        className="w-full px-3 py-2 text-sm bg-background/50 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300 resize-none"
+                        id="message"
+                        name="message"
+                        required
+                        value={formValues.message}
+                        onChange={handleChange}
+                        className="w-full px-3 py-3 text-sm bg-background/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300 resize-none"
                         placeholder="Tell me about your project..."
                       ></textarea>
                     </div>
@@ -190,10 +263,11 @@ const Contact = () => {
                     <Button 
                       type="submit"
                       size="lg" 
+                      disabled={isSubmitting}
                       className="w-full bg-gradient-hero hover:shadow-glow-lg hover:scale-105 transition-bounce py-4 sm:py-6 h-auto text-sm sm:text-base"
                     >
                       <Mail className="w-4 h-4 mr-2" />
-                      Send Message
+                      {isSubmitting ? 'Sending…' : 'Send Message'}
                     </Button>
                   </form>
                   
@@ -229,13 +303,19 @@ const Contact = () => {
                 </h3>
                 
                 <p className="text-sm sm:text-lg lg:text-xl text-muted-foreground leading-relaxed mb-6 sm:mb-8 px-4">
-                  Join the ranks of satisfied clients who've transformed their businesses with 
-                  custom web solutions. The only question is: are you ready to dominate your market?
+                   currently accepting a limited number of new projects. If you're ready to elevate your product with clean code, great UX, and fast delivery—let's talk.
                 </p>
                 
                 <Button 
                   size="lg" 
                   className="bg-gradient-hero hover:shadow-glow-lg hover:scale-110 transition-bounce text-base sm:text-xl px-6 sm:px-12 py-4 sm:py-8 h-auto animate-glow-pulse font-bold"
+                  onClick={() => {
+                    const el = document.getElementById('contact-form');
+                    if (el) {
+                      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+                      window.scrollTo({ top, behavior: 'smooth' });
+                    }
+                  }}
                 >
                   <Rocket className="w-4 h-4 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
                   Let's Build Your Empire

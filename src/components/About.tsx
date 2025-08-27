@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Code, Database, TestTube, Zap, TrendingUp, CalendarDays, MapPin, Briefcase, CheckCircle } from "lucide-react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import danielHeadshot from "@/assets/daniel-headshot.jpeg";
@@ -39,7 +39,7 @@ const highlights = [
 
 const experiences = [
   {
-    title: "Freelance Full-stack Developer",
+    title: "Full-stack Developer",
     company: "Self-Employed",
     location: "Remote",
     period: "April 2025 – Present",
@@ -47,27 +47,23 @@ const experiences = [
     description: [
       "Designed and developed full-stack applications using React, Next.js, Node.js, and Express",
       "Built and queried PostgreSQL databases, implemented RESTful APIs",
-      "Explored No-Code tools (Windsurf, Courser, Cline) and maintained best practices"
     ],
     skills: ["React", "Next.js", "Node.js", "PostgreSQL", "Express", "RESTful APIs"],
-    highlight: "Building modern web applications"
   },
   {
-    title: "Freelance QA Tester",
-    company: "Various Clients",
+    title: "QA Tester",
+    company: "Self-Employed",
     location: "Remote",
     period: "January 2025 – May 2025",
     current: false,
     description: [
       "Developed automated test scripts using Playwright and Selenium",
       "Performed manual and automated testing, cross-browser compatibility testing",
-      "Collaborated with teams to identify and resolve functional/visual bugs"
     ],
     skills: ["Playwright", "Selenium", "Test Automation", "Cross-browser Testing", "Quality Assurance"],
-    highlight: "Ensuring quality delivery"
   },
   {
-    title: "Freelance Video Editor",
+    title: "Video Editor",
     company: "Self-Employed",
     location: "Remote",
     period: "January 2024 – January 2025",
@@ -77,7 +73,6 @@ const experiences = [
       "Edited content for podcast 'מבט לאחור' meeting tight deadlines"
     ],
     skills: ["Video Editing", "Storytelling", "Project Management", "Commercial Production"],
-    highlight: "Creative storytelling expertise"
   },
   {
     title: "Data Reporting Analyst",
@@ -88,10 +83,8 @@ const experiences = [
     description: [
       "Analyzed complex data sets to support strategic initiatives and decision-making",
       "Created detailed reports for stakeholders and identified data trends",
-      "Utilized data analysis tools to streamline processes and improve accuracy"
     ],
     skills: ["Data Analysis", "Strategic Reporting", "Team Collaboration", "Process Improvement"],
-    highlight: "Strategic data insights"
   },
   {
     title: "IT Support Technician",
@@ -102,7 +95,6 @@ const experiences = [
     description: [
       "Maintained IT infrastructure, resolved hardware/software issues",
       "Upgraded operating systems from Windows 7 to 10 for seamless transitions",
-      "Managed user accounts and improved IT infrastructure efficiency"
     ],
     skills: ["IT Infrastructure", "Windows Administration", "System Troubleshooting", "Hardware Support"],
     highlight: "Technical problem solving"
@@ -116,6 +108,8 @@ const About = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const dotsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [expanded, setExpanded] = useState<boolean[]>(Array(experiences.length).fill(false));
+  const [aboutExpanded, setAboutExpanded] = useState<boolean>(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -144,18 +138,18 @@ const About = () => {
   return (
     <section id="about" ref={sectionRef} className="py-12 sm:py-16 lg:py-24 px-4 sm:px-6 relative overflow-hidden">
       {/* Background effects */}
-      <div className="absolute inset-0 bg-gradient-mesh opacity-20" />
-      <div className="absolute top-1/4 left-0 w-48 h-48 sm:w-96 sm:h-96 bg-accent/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-0 w-32 h-32 sm:w-80 sm:h-80 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute inset-0 bg-gradient-mesh opacity-15 pointer-events-none" />
+      <div className="hidden sm:block absolute top-1/4 left-0 w-48 h-48 sm:w-96 sm:h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="hidden sm:block absolute bottom-1/4 right-0 w-32 h-32 sm:w-80 sm:h-80 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="container mx-auto max-w-7xl relative z-10 space-y-24 sm:space-y-32">
+      <div className="container mx-auto max-w-7xl relative z-10 space-y-12 sm:space-y-24">
         {/* --- ABOUT ME PART --- */}
         <div ref={aboutRef}>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             {/* Image Section */}
             <div className={`transition-all duration-1000 ${aboutVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
               <div className="relative group mx-auto w-fit">
-                <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden shadow-glow-lg relative group-hover:shadow-elevated transition-all duration-500 hover:scale-105">
+                <div className="w-56 h-56 sm:w-80 sm:h-80 rounded-full overflow-hidden shadow-glow-lg relative group-hover:shadow-elevated transition-all duration-500 hover:scale-105">
                   <img 
                     src={danielHeadshot}
                     alt="Daniel Charbit - Elite Full Stack Developer"
@@ -170,38 +164,53 @@ const About = () => {
 
             {/* Text Content Section */}
             <div className={`space-y-8 transition-all duration-1000 ${aboutVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="text-center lg:text-left">
-                <Badge variant="secondary" className="text-accent font-medium mb-6 animate-shimmer">
-                  About Daniel
-                </Badge>
-                <h2 className="text-3xl sm:text-4xl font-bold mb-6 leading-tight">
-                  Junior Full Stack
+              <div className="text-center">
+                <h2 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-6 leading-tight mx-auto">
+                  Full Stack
                   <span className="text-primary bg-gradient-hero bg-clip-text text-transparent"> Developer</span>
                 </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Practical experience in building responsive web applications using JavaScript, React, Next.js, and Node.js. Strong in front-end and back-end integration, RESTful APIs, and PostgreSQL databases. Background in UI/UX testing using Playwright and Selenium. Passionate about automation and rapid prototyping with No-Code tools and AI platforms.
+                {/* Mobile: concise intro + expandable details (left aligned) */}
+                <div className="block sm:hidden">
+                  <p className="text-base text-muted-foreground leading-relaxed max-w-md">
+                    Practical experience building responsive apps with JavaScript, React, Next.js, and Node.js. Strong in front-end/back-end integration, RESTful APIs, and PostgreSQL.
+                  </p>
+                  {aboutExpanded && (
+                    <p className="text-base text-muted-foreground leading-relaxed max-w-md mt-2">
+                      Background in UI/UX testing using Playwright and Selenium. Driven by automation and rapid prototyping with No‑Code tools and AI platforms. I love working with AI daily—leveraging it to accelerate development, improve quality, and create better user experiences.
+                    </p>
+                  )}
+                  <button
+                    className="mt-3 text-xs text-primary underline-offset-2 hover:underline"
+                    onClick={() => setAboutExpanded((v) => !v)}
+                  >
+                    {aboutExpanded ? 'Show less' : 'Read more'}
+                  </button>
+                </div>
+                {/* Tablet/Desktop: full paragraph */}
+                <p className="hidden sm:block text-lg text-muted-foreground leading-relaxed max-w-prose mx-auto lg:mx-0">
+                  Practical experience in building responsive web applications using JavaScript, React, Next.js, and Node.js. Strong in front-end and back-end integration, RESTful APIs, and PostgreSQL databases. Background in UI/UX testing using Playwright and Selenium. Driven by automation and rapid prototyping with No-Code tools and AI platforms. I love working with AI daily and believe AI is the future—leveraging it to accelerate development, improve quality, and create better user experiences.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mt-10 sm:mt-16">
             {highlights.map((item, index) => (
               <div
                 key={index}
                 className={`transition-all duration-700 ${aboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 style={{ transitionDelay: `${index * 200}ms` }}
               >
-                <Card className="p-6 bg-gradient-card hover:shadow-glow-lg transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden h-full">
+                <Card className="p-3 sm:p-6 bg-gradient-card hover:shadow-glow-lg transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden h-full">
                   <div className="absolute inset-0 bg-gradient-hero opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
                   <div className="relative z-10 flex flex-col items-center text-center space-y-4">
-                    <div className="p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300 group-hover:scale-110">
-                      <item.icon className="w-8 h-8 text-primary" />
+                    <div className="p-2 sm:p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300 group-hover:scale-110">
+                      <item.icon className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
                     </div>
                     <div className="space-y-2">
-                      <h3 className="font-bold text-lg group-hover:text-primary transition-colors">{item.title}</h3>
-                      <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
-                      <Badge variant="outline" className="text-accent border-accent/30 font-semibold text-xs">{item.metric}</Badge>
+                      <h3 className="font-bold text-sm sm:text-lg group-hover:text-primary transition-colors">{item.title}</h3>
+                      <p className="hidden sm:block text-muted-foreground text-sm leading-relaxed px-3 sm:px-0">{item.description}</p>
+                      <Badge variant="outline" className="hidden sm:inline-flex text-accent border-accent/30 font-semibold text-[11px] sm:text-xs">{item.metric}</Badge>
                     </div>
                   </div>
                 </Card>
@@ -251,20 +260,31 @@ const About = () => {
                           {exp.current && (
                             <Badge className="bg-gradient-hero text-primary-foreground font-bold animate-glow-pulse"><CheckCircle className="w-3 h-3 mr-1" />Current Role</Badge>
                           )}
-                          <Badge variant="outline" className="text-accent border-accent/30 font-medium">{exp.highlight}</Badge>
                         </div>
                       </div>
-                      <ul className="space-y-2 text-muted-foreground mb-6">
-                        {exp.description.map((item, idx) => (
+                      <ul className="space-y-2 text-muted-foreground mb-2 sm:mb-6">
+                        {(expanded[index] ? exp.description : exp.description.slice(0, 2)).map((item, idx) => (
                           <li key={idx} className="flex items-start gap-3 group/item">
                             <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0 group-hover/item:bg-primary transition-colors" />
                             <span className="text-sm leading-relaxed group-hover/item:text-foreground transition-colors">{item}</span>
                           </li>
                         ))}
                       </ul>
-                      <div className="flex flex-wrap gap-2">
+                      {/* Show more/less only on mobile */}
+                      {exp.description.length > 2 && (
+                        <button
+                          className="sm:hidden text-xs text-primary mb-4 underline-offset-2 hover:underline"
+                          onClick={() => setExpanded((prev) => prev.map((v, i) => i === index ? !v : v))}
+                        >
+                          {expanded[index] ? "Show less" : `Show ${exp.description.length - 2} more`}
+                        </button>
+                      )}
+                      {/* Skills as horizontal scroller on mobile, wrap on larger screens */}
+                      <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0 snap-x snap-mandatory">
                         {exp.skills.map((skill) => (
-                          <Badge key={skill} variant="outline" className="text-xs px-2 py-1 hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-all duration-300 cursor-default flex items-center">{getTechIcon(skill)}{skill}</Badge>
+                          <Badge key={skill} variant="outline" className="text-xs px-2 py-1 hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-all duration-300 cursor-default flex items-center whitespace-nowrap snap-start">
+                            {getTechIcon(skill)}{skill}
+                          </Badge>
                         ))}
                       </div>
                     </div>

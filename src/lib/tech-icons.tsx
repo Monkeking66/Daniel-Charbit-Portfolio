@@ -14,9 +14,10 @@ import {
   SiVite,
   SiSelenium,
   SiFramer,
-  SiGreensock as SiGsap
+  SiGreensock as SiGsap,
+  SiFigma
 } from "react-icons/si";
-import { FaCode, FaDatabase, FaUsers } from "react-icons/fa";
+import { FaCode, FaDatabase, FaUsers, FaRobot, FaMagic, FaBolt, FaTerminal, FaQuestionCircle, FaMousePointer } from "react-icons/fa";
 
 export const techIcons: { [key: string]: React.ElementType } = {
   react: SiReact,
@@ -39,10 +40,21 @@ export const techIcons: { [key: string]: React.ElementType } = {
   "quality assurance": FaCode,
   "team collaboration": FaUsers,
   "framer motion": SiFramer,
-  gsap: SiGsap
+  gsap: SiGsap,
+  // Design
+  "figma ui/ux": SiFigma,
+  // AI tools & platforms
+  "n8n": FaBolt,
+  lovable: FaMagic,
+  deepseek: FaRobot,
+  perplexity: FaQuestionCircle,
+  "gemini cli": FaTerminal,
+  "claude code": FaCode,
+  cursor: FaMousePointer
 };
 
 export const getTechIcon = (tech: string) => {
   const Icon = techIcons[tech.toLowerCase()];
   return Icon ? <Icon className="w-4 h-4 mr-2" /> : null;
 };
+
