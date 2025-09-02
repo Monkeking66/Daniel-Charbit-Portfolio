@@ -120,7 +120,7 @@ const About = () => {
 
       gsap.fromTo(timelineRef.current,
         { scaleY: 0, transformOrigin: "top center" },
-        { scaleY: 1, duration: 1.5, ease: "power2.out", scrollTrigger: { trigger: timelineRef.current, start: "top 70%", end: "bottom 30%", scrub: 0.5 } }
+        { scaleY: 1, duration: 1.5, ease: "power2.out", scrollTrigger: { trigger: timelineRef.current, start: "top 70%", end: "bottom 30%", scrub: 0.5, invalidateOnRefresh: true } }
       );
 
       cardsRef.current.forEach((card, index) => {

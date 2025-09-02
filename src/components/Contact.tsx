@@ -312,7 +312,7 @@ const Contact = () => {
                   onClick={() => {
                     const el = document.getElementById('contact-form');
                     if (el) {
-                      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+                      const top = el.offsetTop - 80;
                       window.scrollTo({ top, behavior: 'smooth' });
                     }
                   }}

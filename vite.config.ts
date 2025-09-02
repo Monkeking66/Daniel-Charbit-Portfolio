@@ -24,42 +24,22 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    // Optimize bundle splitting
+    // Minimal bundle splitting - only separate the largest libraries
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // React and routing
-          if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-            return 'react-vendor';
-          }
-          // Radix UI components
-          if (id.includes('@radix-ui/')) {
-            return 'ui-vendor';
-          }
-          // Animation libraries
-          if (id.includes('gsap') || id.includes('framer-motion')) {
-            return 'animation-vendor';
-          }
-          // Icons
-          if (id.includes('lucide-react') || id.includes('react-icons')) {
-            return 'icon-vendor';
-          }
-          // Utility libraries
-          if (id.includes('clsx') || id.includes('tailwind-merge') || id.includes('class-variance-authority')) {
-            return 'utils-vendor';
-          }
-          // TanStack Query
-          if (id.includes('@tanstack/react-query')) {
-            return 'query-vendor';
-          }
-          // Node modules (catch-all for other dependencies)
           if (id.includes('node_modules')) {
+            // Only split out GSAP which is large and independent
+            if (id.includes('gsap')) {
+              return 'gsap-vendor';
+            }
+            // Everything else stays in the main vendor bundle to avoid React context issues
             return 'vendor';
           }
         }
       }
     },
-    // Increase chunk size warning limit slightly for better UX
-    chunkSizeWarningLimit: 600,
+    // Higher limit since we're being conservative with splitting
+    chunkSizeWarningLimit: 1000,
   }
 }));

@@ -18,42 +18,48 @@ const Navigation = () => {
   ], []);
 
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      
-      // Update active section based on scroll position
-      const sections = navItems.map(item => ({
-        id: item.id,
-        element: document.getElementById(item.id)
-      }));
-      
-      const currentSection = sections.find(section => {
-        if (!section.element) return false;
-        const rect = section.element.getBoundingClientRect();
-        return rect.top <= 100 && rect.bottom >= 100;
-      });
-      
-      if (currentSection) {
-        setActiveSection(currentSection.id);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 50);
+          
+          // Update active section based on scroll position
+          const sections = navItems.map(item => ({
+            id: item.id,
+            element: document.getElementById(item.id)
+          }));
+          
+          const currentSection = sections.find(section => {
+            if (!section.element) return false;
+            const rect = section.element.getBoundingClientRect();
+            return rect.top <= 100 && rect.bottom >= 100;
+          });
+          
+          if (currentSection) {
+            setActiveSection(currentSection.id);
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [navItems]);
 
   const scrollToSection = (sectionId: string) => {
     setIsMobileMenuOpen(false);
-    requestAnimationFrame(() => {
-      const element = document.getElementById(sectionId);
-      if (!element) return;
-      const header = document.querySelector('header') as HTMLElement | null;
-      const navBar = header?.querySelector('nav') as HTMLElement | null;
-      const measured = navBar?.offsetHeight ?? header?.offsetHeight ?? 80;
-      const safeHeaderHeight = measured > 120 ? 80 : measured;
-      const targetTop = element.getBoundingClientRect().top + window.scrollY - safeHeaderHeight - 8;
-      window.scrollTo({ top: targetTop, behavior: 'smooth' });
-    });
+    const element = document.getElementById(sectionId);
+    if (!element) return;
+    
+    // Use fixed header height to avoid layout read
+    const headerHeight = 80;
+    const targetTop = element.offsetTop - headerHeight - 8;
+    window.scrollTo({ top: targetTop, behavior: 'smooth' });
   };
 
   return (
