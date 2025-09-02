@@ -43,9 +43,8 @@ const Hero = () => {
                 onClick={() => {
                   const el = document.getElementById('contact-form');
                   if (el) {
-                    const header = document.querySelector('header') as HTMLElement | null;
-                    const headerHeight = header?.offsetHeight ?? 80;
-                    const top = el.getBoundingClientRect().top + window.scrollY - headerHeight - 8;
+                    const headerHeight = 80; // Fixed height to avoid layout read
+                    const top = el.offsetTop - headerHeight - 8;
                     window.scrollTo({ top, behavior: 'smooth' });
                   }
                 }}
