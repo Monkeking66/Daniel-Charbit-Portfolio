@@ -42,7 +42,7 @@ const experiences = [
     title: "Full-stack Developer",
     company: "Self-Employed",
     location: "Remote",
-    period: "April 2025 – Present",
+    period: "April 2024 – Present",
     current: true,
     description: [
       "Designed and developed full-stack applications using React, Next.js, Node.js, and Express",

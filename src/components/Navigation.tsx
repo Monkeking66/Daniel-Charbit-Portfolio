@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Menu, X, Mail, Phone } from "lucide-react";
@@ -9,13 +9,13 @@ const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
 
-  const navItems = [
+  const navItems = useMemo(() => [
     { id: "hero", label: "Home" },
     { id: "projects", label: "Projects" },
     { id: "skills", label: "Skills" },
     { id: "about", label: "About & Experience" },
     { id: "contact", label: "Contact" }
-  ];
+  ], []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +40,7 @@ const Navigation = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [navItems]);
 
   const scrollToSection = (sectionId: string) => {
     setIsMobileMenuOpen(false);

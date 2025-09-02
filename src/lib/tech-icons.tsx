@@ -1,23 +1,30 @@
-import {
-  SiReact,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiExpress,
-  SiPostgresql,
-  SiTailwindcss,
-  SiGit,
-  SiGithub,
-  SiJavascript,
-  SiTypescript,
-  SiHtml5,
-  SiCss3,
-  SiVite,
-  SiSelenium,
-  SiFramer,
-  SiGreensock as SiGsap,
-  SiFigma
-} from "react-icons/si";
-import { FaCode, FaDatabase, FaUsers, FaRobot, FaMagic, FaBolt, FaTerminal, FaQuestionCircle, FaMousePointer } from "react-icons/fa";
+// Import icons individually for better tree-shaking
+import { SiReact } from "react-icons/si";
+import { SiNextdotjs } from "react-icons/si";
+import { SiNodedotjs } from "react-icons/si";
+import { SiExpress } from "react-icons/si";
+import { SiPostgresql } from "react-icons/si";
+import { SiTailwindcss } from "react-icons/si";
+import { SiGit } from "react-icons/si";
+import { SiGithub } from "react-icons/si";
+import { SiJavascript } from "react-icons/si";
+import { SiTypescript } from "react-icons/si";
+import { SiHtml5 } from "react-icons/si";
+import { SiCss3 } from "react-icons/si";
+import { SiVite } from "react-icons/si";
+import { SiSelenium } from "react-icons/si";
+import { SiFramer } from "react-icons/si";
+import { SiGreensock as SiGsap } from "react-icons/si";
+import { SiFigma } from "react-icons/si";
+import { FaCode } from "react-icons/fa";
+import { FaDatabase } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
+import { FaRobot } from "react-icons/fa";
+import { FaMagic } from "react-icons/fa";
+import { FaBolt } from "react-icons/fa";
+import { FaTerminal } from "react-icons/fa";
+import { FaQuestionCircle } from "react-icons/fa";
+import { FaMousePointer } from "react-icons/fa";
 
 export const techIcons: { [key: string]: React.ElementType } = {
   react: SiReact,

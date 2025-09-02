@@ -303,7 +303,7 @@ const Contact = () => {
                 </h3>
                 
                 <p className="text-sm sm:text-lg lg:text-xl text-muted-foreground leading-relaxed mb-6 sm:mb-8 px-4">
-                   currently accepting a limited number of new projects. If you're ready to elevate your product with clean code, great UX, and fast delivery—let's talk.
+                  I'm currently accepting a limited number of new projects. If you're ready to elevate your product with clean code, great UX, and fast delivery—let's talk.
                 </p>
                 
                 <Button 

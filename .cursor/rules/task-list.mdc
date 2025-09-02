@@ -1,0 +1,31 @@
+# Task List - Charbit Codeworks Portfolio
+
+## ✅ Completed Tasks
+- **Vercel 404 Routing Fix**: Created `vercel.json` configuration file with rewrite rules for SPA routing
+- **Route Verification**: Confirmed all routes (/, /home, 404 catch-all) are properly configured
+- **Build Configuration Review**: Verified Vite build setup is compatible with Vercel deployment
+
+## 📋 Current Configuration
+- **Framework**: React + TypeScript + Vite
+- **Routing**: React Router (BrowserRouter) 
+- **UI Library**: Radix UI + shadcn/ui + Tailwind CSS
+- **Deployment**: Vercel (with proper SPA routing configuration)
+- **Database**: Supabase Postgres (as specified in rules)
+- **Localization**: Hebrew RTL, ILS currency, DD/MM/YYYY dates (to be implemented)
+
+## 🚀 Routes Structure
+- `/` - Splash screen (auto-redirects to /home after 4s)
+- `/home` - Main portfolio page (Index component)
+- `*` - 404 Not Found page
+
+## 🔧 Recent Changes
+- Added `vercel.json` with rewrite rules to fix 404 errors on page refresh
+- This allows client-side routing to work properly on Vercel deployment
+
+## 🎯 Next Steps (if needed)
+- Implement Hebrew localization (RTL layout, ILS currency, DD/MM/YYYY dates)
+- Connect Supabase database if dynamic content is required
+- Add any additional features as requested
+
+---
+*Last updated: $(date)*
